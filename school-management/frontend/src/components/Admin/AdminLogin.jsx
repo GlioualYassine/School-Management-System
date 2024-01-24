@@ -13,7 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {axiosClient} from "@/api/axios";
+import { axiosClient } from "@/api/axios";
 
 const formSchema = z.object({
     email: z.string().email().min(2).max(30),
@@ -31,10 +31,14 @@ function AdminLogin() {
     });
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-        const axios = axiosClient.defaults
-        console.log(values);
-        console.log(axios)
+    async function onSubmit(values) {
+        /*  const axios = await axiosClient.post('/login',values)
+        console.log(values)
+        console.log(axios) */
+        const csrf = await axiosClient.get("/sanctum/csrf-cookie");        
+        const data = await axiosClient.post("/login", values);
+
+        console.log(data);
     }
 
     return (
